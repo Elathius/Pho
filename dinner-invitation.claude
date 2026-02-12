@@ -1,0 +1,885 @@
+# Dinner Invitation Website - Complete Specification
+
+## Project Overview
+Build an interactive, whimsical website to ask a friend out to dinner on February 14th (Saturday). The invitation should be playful, fun, and NOT explicitly romantic. The website will track all user interactions and log them for later review.
+
+## Tech Stack
+- **Frontend**: HTML, CSS, JavaScript (Vanilla - no frameworks needed)
+- **Styling**: Clean, whimsical, mobile-responsive design
+- **Backend**: Simple logging endpoint (can be a webhook, Firebase, or simple server endpoint)
+- **Assets**: Placeholder images for chibi character and flowers (to be replaced later)
+
+## File Structure
+```
+dinner-invitation/
+├── index.html
+├── css/
+│   └── styles.css
+├── js/
+│   ├── main.js
+│   ├── logger.js
+│   └── chibi-controller.js
+├── assets/
+│   ├── chibi/
+│   │   ├── neutral.png (placeholder)
+│   │   ├── sad.png (placeholder)
+│   │   ├── panicked.png (placeholder)
+│   │   ├── exploded.png (placeholder)
+│   │   ├── mischievous.png (placeholder)
+│   │   ├── tired.png (placeholder)
+│   │   ├── exhausted.png (placeholder)
+│   │   ├── thinking.png (placeholder)
+│   │   ├── giggling.png (placeholder)
+│   │   └── giving-flower.png (placeholder)
+│   └── flowers/
+│       ├── flower1.png (placeholder)
+│       ├── flower2.png (placeholder)
+│       └── flower3.png (placeholder)
+└── README.md
+```
+
+## Screen-by-Screen Flow
+
+### Screen 1: Front Page (Welcome)
+**Elements:**
+- Poem text (centered, whimsical font):
+  ```
+  Wins upon wins,
+  time to level up?
+  ```
+- Button: "Nom nom?"
+- Chibi character (neutral/happy expression)
+
+**Interactions to Log:**
+- Page load timestamp
+- Time spent on page
+- "Nom nom?" button hover time
+- "Nom nom?" button click timestamp
+
+**Transition:** Fade to Screen 2
+
+---
+
+### Screen 2: Control Quiz
+**Elements:**
+- Title: "Pick ONE thing you'd like to take absolute control over:"
+- 5 Options (radio buttons or clickable cards):
+  1. Talking topics (I'll follow your lead on conversations)
+  2. Menu items we order (You pick everything we eat)
+  3. Drive anywhere location (Name the spot, we'll go there)
+  4. Dessert decisions (To share or not to share, that is YOUR question)
+  5. Post-dinner activity (Ice cream? Walk? Straight home? Your call)
+- Chibi character (happy/neutral)
+- After selection, text appears: "Deal! You've got full control over [CHOICE]. I'll handle everything else 😊"
+- Button: "Sounds good!"
+
+**Interactions to Log:**
+- Time spent on page
+- Each option: hover time, hover count
+- Selected option
+- Time before selection
+- "Sounds good!" button click timestamp
+
+**Transition:** Slide to Screen 3
+
+---
+
+### Screen 3: Date Picker
+**Elements:**
+- Title: "When works for you?"
+- 5 Date options (clickable):
+  - Wed, Feb 11th
+  - Thu, Feb 12th
+  - Fri, Feb 13th
+  - **Sat, Feb 14th** ✨ (slightly emphasized)
+  - Sun, Feb 15th
+- Chibi character that reacts to cursor position:
+  - **Hover on Wed/Thu/Fri/Sun:** Chibi shows corresponding sad/negative expression
+  - **Hover on Saturday:** Chibi shows VERY happy/excited expression
+
+**Interactions to Log:**
+- Time spent on page
+- For EACH date:
+  - Total hover time
+  - Hover count
+  - Chibi reaction triggered (sad/happy)
+- Click events with timestamp
+- Order of dates attempted
+
+**Date-Specific Behaviors:**
+
+#### **WEDNESDAY** - Panic Mode
+- **Hover:** Chibi panicked
+- **Click:** 
+  - Chibi brain explode/stressed
+  - Message: "But it's so close! So fast! No time to plan! I have a CS match! Tomorrow?! 😵‍💫"
+  - Buttons:
+    - "Pick another day" → back to date picker
+    - "I insist! 😤" → more panic, chibi faints, loop back
+- **Log:** Click, insist attempts
+
+#### **THURSDAY** - Impossible Button
+- **Hover:** Chibi sad/skeptical
+- **Desktop Click Attempt:** 
+  - Button moves away from cursor on mouseenter
+  - Dodges 3-5 times
+  - Chibi laughs
+  - Text: "Nice try! 😏 Pick another day?"
+  - Button eventually disappears or shrinks
+- **Mobile Tap Attempt:**
+  - Button shrinks/fades each tap
+  - After 3 taps: "This day really doesn't work! 😅"
+  - Cannot be selected
+- **Log:** Number of dodge attempts, click attempts
+
+#### **FRIDAY** - Busy Day  
+- **Hover:** Chibi tired
+- **Click:**
+  - Chibi very tired
+  - Message: "It's such a busy dayyyyy 😩 I'll be so exhausted..."
+  - Buttons:
+    - "Pick another day"
+    - "I insist! 😤" → shows extra exhausted chibi + "I mean... I could... but do you really want tired, zombie me at dinner? 🧟 Saturday I'll actually be fun I promise! 🙏"
+      - "Fine, pick another" (bigger)
+      - "I insist anyway" (smaller) → loops back
+- **Log:** Click, insist attempts (count each)
+
+#### **SATURDAY** - Perfect! 💚
+- **Hover:** Chibi giggling/very happy, sparkles/hearts
+- **Click:**
+  - Chibi happy jump/dance
+  - Confetti animation
+  - Message: "That's perfect! There couldn't be a better choice! 🎉"
+  - Button: "Continue" or "Let's plan it!"
+- **Log:** Click timestamp, hover time
+- **Transition:** To Screen 4 (Success) then Screen 5 (Planning Quiz)
+
+#### **SUNDAY** - Hmmmm...
+- **Hover:** Chibi thinking (hand on chin)
+- **Click:**
+  - Chibi stays thinking
+  - Message: "Hmph... hmmmm... 🤔 Sunday could work... but Saturday is actually way better for both of us, don't you think?"
+  - Buttons:
+    - "You're right, Saturday!" (emphasized)
+    - "No, Sunday works" → Chibi sighs, "Okay but... Saturday though? 🥺" loops back
+- **Log:** Click, insist attempts
+
+---
+
+### Screen 4: Success Screen (after Saturday selected)
+**Elements:**
+- Happy chibi with confetti/sparkles
+- Message: "That's perfect! There couldn't be a better choice! 🎉"
+- Button: "Continue"
+
+**Interactions to Log:**
+- Time spent viewing success screen
+- "Continue" click timestamp
+
+**Transition:** Fade to Screen 5
+
+---
+
+### Screen 5: Planning Quiz
+**Elements:**
+- Title: "Let's plan the perfect evening!"
+- Questions (one at a time or all on one page - recommend all on one page):
+
+1. **Vibe check:**
+   - Dress up
+   - Smart casual  
+   - Casual
+
+2. **Food mood:**
+   - Light & fresh
+   - Comfort food
+   - Heavy & hearty
+   - Spicy adventure
+
+3. **Timing:**
+   - Early dinner (6pm)
+   - Classic (7-8pm)
+   - Late night (9pm+)
+
+4. **Transportation:**
+   - I'll drive us
+   - Pick me up please
+   - Meet you there
+
+5. **Any special requests?**
+   - Text input field
+   - Placeholder: "Anything at all... I've got you covered ✨"
+
+- Chibi character (happy/supportive)
+- Button: "All set!"
+
+**Interactions to Log:**
+- Time spent on page
+- For each question:
+  - Hover time per option
+  - Time before selection
+  - Selected answer
+- Special requests field:
+  - Time spent typing
+  - Final text content
+  - Whether left blank
+- "All set!" button click timestamp
+
+**Transition:** Fade to Screen 6
+
+---
+
+### Screen 6: Flower Selection
+**Elements:**
+- Title: "Pick your favorite!"
+- 3 Flower images (clickable)
+- Chibi character initially neutral
+
+**On Flower Click:**
+- Chibi changes to "giving flower" pose (holding selected flower)
+- Quote appears based on flower:
+  - **Flower 1 (Red/Rose):** "I love people who like flowers—they appreciate beauty in simple things 🌹"
+  - **Flower 2 (Yellow/Sunflower):** "People who pick sunflowers are always the brightest in the room 🌻"
+  - **Flower 3 (Pink/Purple):** "Soft hearts pick soft petals—and that's a beautiful thing 🌸"
+- Auto-advance after 2-3 seconds OR button: "Aww, thank you!"
+
+**Interactions to Log:**
+- Time spent on page
+- Each flower: hover time, hover count
+- Selected flower
+- Time before selection
+- Time spent viewing chibi + quote
+
+**Transition:** Fade to Screen 7
+
+---
+
+### Screen 7: Feedback Quiz
+**Elements:**
+- Title: "So... how'd I do?"
+- 4 Options (can only pick one):
+  1. "This was fun!!" 😊
+  2. "Could've just texted me ya know" 😏
+  3. "These invitations keep getting better" 🤩
+  4. "Dude, stop" 🙄
+
+**Interactions to Log:**
+- Time spent on page
+- Each option: hover time, hover count
+- Selected feedback
+- Time before selection
+
+**Transition:** Fade to Screen 8
+
+---
+
+### Screen 8: Final Screen
+**Elements:**
+- Message based on feedback selection:
+  - **"This was fun!!"** → "Yay! See you Saturday! 🎉" + happy chibi waving
+  - **"Could've just texted me ya know"** → "Where's the fun in that? 😄 See you Saturday!" + chibi shrugging
+  - **"These invitations keep getting better"** → "Just wait till next time 😎 See you Saturday!" + proud chibi
+  - **"Dude, stop"** → "Never 😈 See you Saturday!" + mischievous chibi
+
+**Interactions to Log:**
+- Time spent on final screen
+- Total session duration
+- Session end timestamp
+- Completion status: 100%
+
+---
+
+## Navigation & Back Buttons
+
+**Back Button Placement:**
+- Small "← Back" link in top-left corner on screens 2-6
+- Not available on Screen 1 (front page), Screen 7 (feedback), or Screen 8 (final)
+
+**Back Button Behavior:**
+- Returns to previous screen
+- Previous selections remain visible but can be changed
+- All navigation is logged
+
+**Logging for Back Navigation:**
+- From which screen
+- To which screen  
+- Timestamp
+- Number of times each screen is revisited
+- Original selections vs changed selections
+
+---
+
+## Logging System
+
+### Log Structure
+```json
+{
+  "session_id": "unique_session_id",
+  "start_timestamp": "2025-02-10T14:30:00.000Z",
+  "end_timestamp": "2025-02-10T14:31:25.000Z",
+  "completion_status": "completed", // or "abandoned_at_[screen_name]"
+  "total_duration_seconds": 85,
+  
+  "screens": {
+    "front_page": {
+      "visit_count": 1,
+      "visits": [
+        {
+          "visit_number": 1,
+          "time_spent_seconds": 5.2,
+          "button_hover_time_seconds": 1.3,
+          "button_click_timestamp": "2025-02-10T14:30:05.000Z"
+        }
+      ]
+    },
+    
+    "control_quiz": {
+      "visit_count": 1,
+      "visits": [
+        {
+          "visit_number": 1,
+          "time_spent_seconds": 12.5,
+          "option_hovers": {
+            "talking_topics": {
+              "total_time_seconds": 2.1,
+              "hover_count": 2
+            },
+            "menu_items": {
+              "total_time_seconds": 1.3,
+              "hover_count": 1
+            },
+            "drive_location": {
+              "total_time_seconds": 1.2,
+              "hover_count": 1
+            },
+            "dessert": {
+              "total_time_seconds": 4.8,
+              "hover_count": 3
+            },
+            "post_dinner": {
+              "total_time_seconds": 2.0,
+              "hover_count": 2
+            }
+          },
+          "selected": "dessert",
+          "time_before_selection_seconds": 8.3,
+          "continue_click_timestamp": "2025-02-10T14:30:18.000Z"
+        }
+      ]
+    },
+    
+    "date_picker": {
+      "visit_count": 1,
+      "visits": [
+        {
+          "visit_number": 1,
+          "time_spent_seconds": 10.0,
+          "date_hovers": {
+            "wednesday": {
+              "total_time_seconds": 0.5,
+              "hover_count": 1,
+              "chibi_reaction": "panicked"
+            },
+            "thursday": {
+              "total_time_seconds": 0.3,
+              "hover_count": 1,
+              "chibi_reaction": "sad"
+            },
+            "friday": {
+              "total_time_seconds": 1.1,
+              "hover_count": 2,
+              "chibi_reaction": "tired"
+            },
+            "saturday": {
+              "total_time_seconds": 8.0,
+              "hover_count": 5,
+              "chibi_reaction": "giggling"
+            },
+            "sunday": {
+              "total_time_seconds": 0.1,
+              "hover_count": 1,
+              "chibi_reaction": "thinking"
+            }
+          },
+          "dates_attempted": [
+            {
+              "date": "saturday",
+              "click_timestamp": "2025-02-10T14:30:24.000Z",
+              "result": "success"
+            }
+          ],
+          "insist_attempts": []
+        }
+      ]
+    },
+    
+    "success_screen": {
+      "time_spent_seconds": 3.5,
+      "continue_click_timestamp": "2025-02-10T14:30:28.000Z"
+    },
+    
+    "planning_quiz": {
+      "visit_count": 1,
+      "visits": [
+        {
+          "visit_number": 1,
+          "time_spent_seconds": 34.0,
+          "vibe": {
+            "hovers": {
+              "dress_up": 2.1,
+              "smart_casual": 3.4,
+              "casual": 1.0
+            },
+            "selected": "smart_casual",
+            "time_before_selection_seconds": 6.5
+          },
+          "food": {
+            "hovers": {
+              "light_fresh": 0.8,
+              "comfort": 1.2,
+              "heavy": 1.2,
+              "spicy": 4.5
+            },
+            "selected": "spicy",
+            "time_before_selection_seconds": 7.7
+          },
+          "timing": {
+            "hovers": {
+              "early": 1.0,
+              "classic": 2.8,
+              "late": 0.5
+            },
+            "selected": "classic",
+            "time_before_selection_seconds": 4.3
+          },
+          "transport": {
+            "hovers": {
+              "drive": 2.1,
+              "pick_up": 5.2,
+              "meet": 1.0
+            },
+            "selected": "pick_up",
+            "time_before_selection_seconds": 8.3
+          },
+          "special_request": {
+            "time_typing_seconds": 12.3,
+            "text": "Can we go somewhere with good vegetarian options?",
+            "is_blank": false
+          },
+          "submit_click_timestamp": "2025-02-10T14:31:02.000Z"
+        }
+      ]
+    },
+    
+    "flower_selection": {
+      "time_spent_seconds": 9.0,
+      "flower_hovers": {
+        "flower1": {
+          "total_time_seconds": 2.1,
+          "hover_count": 2
+        },
+        "flower2": {
+          "total_time_seconds": 4.8,
+          "hover_count": 3
+        },
+        "flower3": {
+          "total_time_seconds": 1.3,
+          "hover_count": 1
+        }
+      },
+      "selected_flower": "flower2",
+      "time_before_selection_seconds": 8.2,
+      "quote_view_duration_seconds": 4.5,
+      "continue_click_timestamp": "2025-02-10T14:31:11.000Z"
+    },
+    
+    "feedback": {
+      "time_spent_seconds": 5.3,
+      "option_hovers": {
+        "fun": 3.2,
+        "texted": 0.5,
+        "better": 2.1,
+        "stop": 0.3
+      },
+      "selected": "fun",
+      "time_before_selection_seconds": 6.1,
+      "submit_timestamp": "2025-02-10T14:31:21.000Z"
+    },
+    
+    "final_screen": {
+      "time_spent_seconds": 2.8,
+      "session_end_timestamp": "2025-02-10T14:31:25.000Z"
+    }
+  },
+  
+  "navigation": {
+    "back_button_clicks": [],
+    "screen_revisit_count": {},
+    "total_back_clicks": 0
+  },
+  
+  "summary": {
+    "total_screens_visited": 8,
+    "completion_percentage": 100,
+    "most_time_spent_screen": "planning_quiz",
+    "decision_speed": "moderate",
+    "saturday_selection": "direct",
+    "enthusiasm_level": "high"
+  }
+}
+```
+
+### When to Send Logs
+
+**Progressive Logging (Recommended):**
+1. After each screen completion
+2. On session start (front page load)
+3. On session end (final screen or abandonment)
+4. Before page unload (if user closes browser)
+
+**Implementation:**
+- Use `fetch()` API to send logs to endpoint
+- Queue logs locally if network fails
+- Send queued logs when connection restored
+- Include session_id in all requests to connect data
+
+### Log Endpoint
+Developer needs to provide:
+- REST API endpoint URL (e.g., `https://your-domain.com/api/log`)
+- Or webhook URL (e.g., Zapier, Make.com)
+- Or Firebase Firestore configuration
+- Or simple email webhook
+
+### Human-Readable Log Format
+
+After session completion, generate a timeline view:
+
+```
+=== DINNER INVITATION SESSION ===
+Started: Feb 10, 2025 at 2:30 PM
+
+--- JOURNEY TIMELINE ---
+
+[00:00] 🏠 Front Page (5s)
+        "Nom nom?" clicked
+
+[00:05] 🎯 Control Quiz (13s)
+        Dessert ⭐⭐⭐⭐ (4.8s hover)
+        Selected: "Dessert decisions"
+
+[00:18] 📅 Date Picker (10s)
+        Saturday ⭐⭐⭐⭐⭐⭐⭐⭐ (8s hover) 💚
+        Clicked: Saturday (direct, no mistakes!)
+
+[00:28] 🎉 Success Screen (3s)
+
+[00:31] 📋 Planning Quiz (34s)
+        Smart casual ✓
+        Spicy adventure ✓
+        7-8pm ✓
+        Pick me up ✓
+        Request: "vegetarian options?" ✓
+
+[01:05] 🌸 Flower Selection (9s)
+        Sunflower ⭐⭐⭐⭐ (4.8s)
+        Selected: Flower 2
+
+[01:14] 💬 Feedback (5s)
+        "This was fun!!" ✓
+
+[01:19] 👋 Final Screen (3s)
+
+--- SUMMARY ---
+Total Duration: 1m 19s
+Completion: 100% ✓
+Saturday Selection: Direct (no bad dates tried) 💚
+Enthusiasm: High ("This was fun!!")
+
+--- KEY INSIGHTS ---
+✓ Dessert decisions most important
+✓ Wants spicy food, smart casual, 7-8pm
+✓ Prefers being picked up
+✓ Needs vegetarian options
+✓ Chose sunflower
+✓ Had fun with experience!
+```
+
+---
+
+## Design Guidelines
+
+### Color Scheme
+- **Primary:** Soft, warm colors (peach, light pink, cream)
+- **Accent:** Gentle green or blue for buttons
+- **Text:** Dark gray (not pure black)
+- **Background:** Light cream or white with subtle texture
+
+### Typography
+- **Poem/Headers:** Whimsical, handwritten style font
+  - Suggestions: 'Caveat', 'Dancing Script', 'Pacifico'
+- **Body/Buttons:** Clean, friendly sans-serif
+  - Suggestions: 'Quicksand', 'Nunito', 'Poppins'
+- **Font sizes:**
+  - Poem: 24-32px
+  - Headers: 20-24px
+  - Body: 16-18px
+  - Buttons: 16-18px
+
+### Layout
+- **Desktop:** Max-width 600-800px, centered
+- **Mobile:** Full-width with 20px padding
+- **Chibi:** 150-250px size, positioned strategically
+- **Spacing:** Generous whitespace, 20-40px between elements
+
+### Animations
+- **Screen transitions:** Fade (300ms) or slide (400ms)
+- **Button hovers:** Subtle scale (1.05) or color shift
+- **Chibi changes:** Quick fade/crossfade (200ms)
+- **Confetti:** Particle animation on Saturday success
+- **Thursday button:** Smooth position transition (300ms ease-out)
+
+### Responsive Design
+- Mobile-first approach
+- Breakpoint at 768px for tablet/desktop
+- Touch-friendly button sizes (min 44x44px)
+- Thursday button behavior changes on mobile (shrink vs. dodge)
+
+---
+
+## Placeholder Assets
+
+### Chibi Character
+Generate simple placeholder squares with emoji faces:
+- Neutral: 😊
+- Sad: 😔
+- Panicked: 😰
+- Exploded: 🤯
+- Mischievous: 😏
+- Tired: 😴
+- Exhausted: 🥱
+- Thinking: 🤔
+- Giggling: 🤭
+- Giving flower: 😊🌸
+
+**Specification:**
+- 200x200px colored squares
+- Centered emoji
+- Soft pastel background colors
+- PNG format with transparency
+
+### Flowers
+Generate simple placeholder flower images:
+- Flower 1: 🌹 (Rose) - Red square with rose emoji
+- Flower 2: 🌻 (Sunflower) - Yellow square with sunflower emoji
+- Flower 3: 🌸 (Cherry blossom) - Pink square with blossom emoji
+
+**Specification:**
+- 150x150px colored squares
+- Centered flower emoji
+- Soft background matching flower color
+- PNG format with transparency
+
+---
+
+## Code Requirements
+
+### HTML
+- Semantic HTML5
+- Single-page application (all screens in one HTML file)
+- Screens hidden/shown with JavaScript
+- Accessible (ARIA labels where needed)
+- Meta tags for mobile viewport
+
+### CSS
+- Mobile-first responsive design
+- CSS Grid or Flexbox for layouts
+- CSS animations for transitions
+- Hover states for interactive elements
+- Media queries for responsiveness
+
+### JavaScript
+- Vanilla JS (no frameworks)
+- Modular code structure:
+  - `main.js` - Screen navigation, main flow
+  - `logger.js` - All logging functionality
+  - `chibi-controller.js` - Chibi expression changes
+- Event listeners for all interactions
+- Hover time tracking using timestamps
+- Session storage for data persistence during session
+- Clean, commented code
+
+### Logger Module Requirements
+```javascript
+// logger.js should export:
+- initSession() - Start new session with unique ID
+- logScreenVisit(screenName) - Log when screen is entered
+- logHover(element, duration) - Log hover events
+- logClick(element) - Log click events
+- logSelection(question, answer) - Log user selections
+- logTextInput(field, value) - Log text field entries
+- logNavigation(from, to) - Log back button usage
+- sendLog() - Send accumulated log data to endpoint
+- generateHumanReadableLog() - Create timeline format
+```
+
+### Chibi Controller Module Requirements
+```javascript
+// chibi-controller.js should export:
+- setChibiExpression(expression) - Change chibi image
+- handleDateHover(date) - Show appropriate expression for date
+- animateChibi(animation) - Trigger animation (jump, dance, etc)
+- resetChibi() - Return to neutral state
+```
+
+---
+
+## Testing Checklist
+
+### Functionality
+- [ ] All 8 screens load correctly
+- [ ] Navigation flows from screen to screen
+- [ ] Back button works on appropriate screens
+- [ ] All hover events trigger correctly
+- [ ] All click events work
+- [ ] Chibi expressions change based on hovers
+- [ ] Thursday button dodges cursor (desktop)
+- [ ] Thursday button shrinks (mobile)
+- [ ] Friday insist flow works
+- [ ] Sunday insist flow works
+- [ ] Wednesday panic message shows
+- [ ] Saturday success with confetti
+- [ ] All quiz selections save correctly
+- [ ] Text input field works
+- [ ] Flower selection triggers chibi+quote
+- [ ] Feedback selection works
+- [ ] Final screen shows correct message based on feedback
+
+### Logging
+- [ ] Session starts with unique ID
+- [ ] All hover times are tracked
+- [ ] All clicks are logged with timestamps
+- [ ] Date selection attempts logged
+- [ ] Insist attempts counted
+- [ ] Quiz answers saved
+- [ ] Text input logged
+- [ ] Back navigation logged
+- [ ] Final log contains all data
+- [ ] Human-readable format generated
+- [ ] Logs sent to endpoint successfully
+
+### Design
+- [ ] Responsive on mobile (320px+)
+- [ ] Responsive on tablet (768px+)
+- [ ] Responsive on desktop (1024px+)
+- [ ] Fonts load correctly
+- [ ] Colors match spec
+- [ ] Animations smooth (60fps)
+- [ ] No layout shift issues
+- [ ] Touch targets min 44x44px
+- [ ] Readable contrast ratios
+
+### Cross-Browser
+- [ ] Works on Chrome
+- [ ] Works on Safari
+- [ ] Works on Firefox
+- [ ] Works on mobile Safari (iOS)
+- [ ] Works on mobile Chrome (Android)
+
+---
+
+## Deployment
+
+### Hosting Options
+1. **Static Hosting (Recommended):**
+   - Netlify (free, easy)
+   - Vercel (free, easy)
+   - GitHub Pages (free)
+   - Cloudflare Pages (free)
+
+2. **Traditional Hosting:**
+   - Upload files to web server via FTP
+   - Configure domain if desired
+
+### Logging Backend Options
+
+**Option 1: Webhook (Simplest)**
+- Use Zapier or Make.com
+- Create webhook that receives POST requests
+- Sends data to Google Sheets or email
+- No coding required
+
+**Option 2: Firebase (Recommended)**
+- Free tier sufficient
+- Real-time database or Firestore
+- Easy JavaScript SDK
+- Query logs easily
+
+**Option 3: Simple Server**
+- Node.js Express endpoint
+- Save to JSON file or database
+- Host on Heroku/Railway/Render free tier
+
+**Option 4: Email Webhook**
+- Use service like FormSubmit or EmailJS
+- Sends log data as email
+- No server needed
+- Good for one-off use
+
+### Pre-Deployment Checklist
+- [ ] Replace placeholder assets with real images
+- [ ] Configure logging endpoint URL
+- [ ] Test on real devices
+- [ ] Verify logs are being received
+- [ ] Check page load speed
+- [ ] Minify CSS/JS (optional)
+- [ ] Add favicon
+- [ ] Test with actual link sending (text/email)
+
+---
+
+## Future Enhancements (Post-MVP)
+
+- Custom domain name
+- Save/resume session if user returns later
+- Admin dashboard to view logs visually
+- A/B testing different messaging
+- Background music toggle
+- More elaborate animations
+- Sharing to social media
+- Print/PDF export of invitation
+
+---
+
+## Notes for Claude Code
+
+- Start with basic structure, then add interactivity
+- Create placeholder assets first (colored squares with emojis)
+- Build logger module early and test logging
+- Mobile responsiveness is critical
+- Comment code clearly for future modifications
+- Keep it simple - no over-engineering
+- Focus on user experience and smooth animations
+- Ensure all logs capture required data
+- Test thoroughly before deployment
+
+---
+
+## Contact & Support
+
+If issues arise during development:
+1. Check browser console for errors
+2. Verify logging endpoint is receiving data
+3. Test on multiple devices/browsers
+4. Validate JSON log structure
+5. Check network requests in DevTools
+
+---
+
+## License & Usage
+
+This is a personal project. Code can be reused/modified as needed.
+Assets (chibi, flowers) should be properly licensed before final use.
+
+---
+
+End of specification. Good luck building! 🎉

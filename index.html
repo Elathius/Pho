@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You're Invited!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Confetti Canvas (overlay) -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- ========== SCREEN 0: WELCOME ========== -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome-inner">
+      <h1 class="welcome-text" id="welcome-text"></h1>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 1: FRONT PAGE ========== -->
+  <div class="screen" id="screen-front">
+    <div class="screen-inner">
+      <div class="chibi-container" id="chibi-front"></div>
+      <p class="poem">Lord Archduke of Nappies<br>hath summoned thee<br>to claim yet another win</p>
+      <button class="btn-primary" id="btn-accept">I accept</button>
+      <button class="btn-secondary" id="btn-decline">Decline</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 1B: INTRO ========== -->
+  <div class="screen" id="screen-intro">
+    <div class="screen-inner">
+      <div class="chibi-container" id="chibi-intro"></div>
+      <h2>So here's the deal...</h2>
+      <p class="intro-text">You've been PHO'd! *ahem* *ahem* I mean invited to a royal dinner!</p>
+      <button class="btn-primary" id="btn-intro-continue">Let's go!</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 2: CONTROL QUIZ ========== -->
+  <div class="screen" id="screen-control">
+    <div class="screen-inner">
+      <button class="btn-back" data-back="intro">&larr; Back</button>
+      <div class="chibi-container" id="chibi-control"></div>
+      <h2>To begin, over the entire event pick ONE thing you'd like to have absolute control over:</h2>
+      <div class="options-grid" id="control-options">
+        <button class="option-card" data-option="talking_topics">
+          Talking topics
+          <span class="option-sub">I'll follow your lead on conversations</span>
+        </button>
+        <button class="option-card" data-option="menu_items">
+          Menu items we order
+          <span class="option-sub">You pick everything we eat</span>
+        </button>
+        <button class="option-card" data-option="drive_location">
+          Drive anywhere location
+          <span class="option-sub">Name the spot, we'll go there (anywhere!)</span>
+        </button>
+        <button class="option-card" data-option="dessert">
+          Dessert decisions
+          <span class="option-sub">nom nom nom nom nom nom</span>
+        </button>
+        <button class="option-card" data-option="post_dinner">
+          Post-dinner activity
+          <span class="option-sub">Ice cream? Walk? Straight home? Loitering?</span>
+        </button>
+      </div>
+      <div class="result-box hidden" id="control-result">
+        <p id="control-result-text"></p>
+        <button class="btn-primary" id="btn-sounds-good">Sounds good!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 3: DATE PICKER ========== -->
+  <div class="screen" id="screen-dates">
+    <div class="screen-inner">
+      <button class="btn-back" data-back="control">&larr; Back</button>
+      <h2>When works for you?</h2>
+      <div class="chibi-container" id="chibi-dates"></div>
+      <p class="chibi-quote" id="date-quote"></p>
+      <div class="date-grid" id="date-grid">
+        <button class="date-btn" data-date="wednesday">Wed, Feb 11th</button>
+        <button class="date-btn" data-date="thursday">Thu, Feb 12th</button>
+        <button class="date-btn" data-date="friday">Fri, Feb 13th</button>
+        <button class="date-btn" data-date="saturday">Sat, Feb 14th</button>
+        <button class="date-btn" data-date="sunday">Sun, Feb 15th</button>
+      </div>
+
+      <!-- Date rejection overlay -->
+      <div class="date-rejection hidden" id="date-rejection">
+        <div class="chibi-container" id="chibi-rejection"></div>
+        <p class="rejection-msg" id="rejection-message"></p>
+        <div class="rejection-btns" id="rejection-buttons"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 4: SUCCESS ========== -->
+  <div class="screen" id="screen-success">
+    <div class="screen-inner">
+      <div class="chibi-container" id="chibi-success"></div>
+      <h2 class="success-title">That's perfect! There couldn't be a better choice!</h2>
+      <button class="btn-primary" id="btn-continue-success">Let's plan it!</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 5: PLANNING QUIZ ========== -->
+  <div class="screen" id="screen-planning">
+    <div class="screen-inner scrollable">
+      <button class="btn-back" data-back="success">&larr; Back</button>
+      <div class="chibi-container" id="chibi-planning"></div>
+      <h2>Let's plan the perfect evening!</h2>
+
+      <div class="quiz-section" data-question="vibe">
+        <h3>Vibe check:</h3>
+        <div class="quiz-options">
+          <button class="quiz-option" data-value="dress_up">Royal court attire</button>
+          <button class="quiz-option" data-value="smart_casual">Adventurer's garb</button>
+          <button class="quiz-option" data-value="casual">Tavern clothes</button>
+        </div>
+      </div>
+
+      <div class="quiz-section" data-question="food">
+        <h3>Food mood:</h3>
+        <div class="quiz-options">
+          <button class="quiz-option" data-value="light_fresh">Nom &amp; nom</button>
+          <button class="quiz-option" data-value="comfort">yum :p</button>
+          <button class="quiz-option" data-value="heavy">Chomp</button>
+          <button class="quiz-option" data-value="spicy">NOM NOM CHOMP CHOMP GRRRRRRRRR</button>
+        </div>
+      </div>
+
+      <div class="quiz-section" data-question="timing">
+        <h3>Timing:</h3>
+        <div class="quiz-options">
+          <button class="quiz-option" data-value="early">Early dinner (6pm)</button>
+          <button class="quiz-option" data-value="classic">Perfecto (7-8pm)</button>
+          <button class="quiz-option" data-value="late">Cozy after-dark (9pm+)</button>
+        </div>
+      </div>
+
+      <div class="quiz-section" data-question="transport">
+        <h3>Transportation:</h3>
+        <div class="quiz-options">
+          <button class="quiz-option" data-value="drive">My horsie</button>
+          <button class="quiz-option" data-value="pick_up">Your horsie</button>
+          <button class="quiz-option" data-value="meet">You on your horsie and me on my horsie</button>
+        </div>
+      </div>
+
+      <div class="quiz-section">
+        <h3>Any special requests?</h3>
+        <textarea id="special-requests" class="text-input" placeholder="Anything at all!"></textarea>
+      </div>
+
+      <button class="btn-primary" id="btn-all-set">All set!</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 6A: GIFT INTRO ========== -->
+  <div class="screen" id="screen-gift-intro">
+    <div class="welcome-inner">
+      <h1 class="gift-intro-text" id="gift-intro-text"></h1>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 6B: CARD GALLERY ========== -->
+  <div class="screen" id="screen-cards">
+    <div class="screen-inner scrollable">
+      <h2>The Sovereign Decrees</h2>
+      <div class="cards-grid" id="cards-grid">
+        <div class="deck-card" data-card="revelation">
+          <img src="assets/cards/eladeck-revelation.png" alt="Revelation">
+        </div>
+        <div class="deck-card" data-card="edict">
+          <img src="assets/cards/eladeck-edict.png" alt="Edict of Action">
+        </div>
+        <div class="deck-card" data-card="reversal">
+          <img src="assets/cards/eladeck-reversal.png" alt="Decree of Undoing">
+        </div>
+        <div class="deck-card" data-card="recalibration">
+          <img src="assets/cards/eladeck-recalibration.png" alt="Fate's Recalibration">
+        </div>
+      </div>
+      <p class="cards-note">These cards shall be presented to thee in-person on the day set forth.</p>
+      <button class="btn-primary" id="btn-cards-continue">Continue</button>
+    </div>
+
+    <!-- Lightbox overlay for zoomed card -->
+    <div class="card-lightbox hidden" id="card-lightbox">
+      <img id="lightbox-img" src="" alt="Card">
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 6C: FAREWELL ========== -->
+  <div class="screen" id="screen-farewell">
+    <div class="welcome-inner">
+      <h1 class="gift-intro-text" id="farewell-text"></h1>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 7: FEEDBACK ========== -->
+  <div class="screen" id="screen-feedback">
+    <div class="screen-inner">
+      <h2>hehe was this fun? :p</h2>
+      <div class="feedback-grid" id="feedback-options">
+        <button class="option-card feedback-option" data-feedback="fun">"This was fun!!"</button>
+        <button class="option-card feedback-option" data-feedback="texted">"Could've just texted me ya know..."</button>
+        <button class="option-card feedback-option" data-feedback="better">"These invitations keep getting better!"</button>
+        <button class="option-card feedback-option" data-feedback="more">"MOREEEEEEEE!!"</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 8: FINAL ========== -->
+  <div class="screen" id="screen-final">
+    <div class="screen-inner">
+      <div class="chibi-container" id="chibi-final"></div>
+      <h2 id="final-message"></h2>
+    </div>
+  </div>
+
+  <script src="js/logger.js"></script>
+  <script src="js/chibi-controller.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
