@@ -251,13 +251,16 @@ const Logger = (() => {
     const controlVisits = log.screens.control_quiz.visits;
     const controlSelection = controlVisits.length > 0 ? controlVisits[controlVisits.length - 1].selected : null;
 
+    // Capitalize date name
+    const dateName = selectedDate.charAt(0).toUpperCase() + selectedDate.slice(1);
+
     return {
       total_screens_visited: Object.values(log.screens).filter(s =>
         (s.visit_count && s.visit_count > 0) || (s.time_spent_seconds && s.time_spent_seconds > 0)
       ).length,
       completion_percentage: log.completion_status === 'completed' ? 100 : 0,
       total_duration_seconds: log.total_duration_seconds,
-      selected_date: selectedDate,
+      selected_date: dateName,
       date_selection_method: dateMethod,
       control_selection: controlSelection,
       planning_answers: planningAnswers,

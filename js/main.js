@@ -168,11 +168,11 @@
     trackHovers(options, 'control');
 
     const CHOICE_LABELS = {
-      talking_topics: 'talking topics',
-      menu_items: 'menu items we order',
-      drive_location: 'where we drive',
-      dessert: 'dessert decisions',
-      post_dinner: 'the post-dinner activity'
+      talking_topics: 'Talking topics',
+      menu_items: 'Menu items we order',
+      drive_location: 'Drive anywhere location',
+      dessert: 'Dessert decisions',
+      post_dinner: 'Post-dinner activity'
     };
 
     options.forEach(card => {
@@ -195,7 +195,7 @@
         options.forEach(o => {
           hoverData[o.dataset.option] = Logger.getHoverData('control_' + o.dataset.option);
         });
-        Logger.logControlSelection(card.dataset.option, hoverData);
+        Logger.logControlSelection(CHOICE_LABELS[card.dataset.option] || card.dataset.option, hoverData);
       });
     });
 
@@ -478,6 +478,35 @@
     Chibi.register('chibi-planning');
     Chibi.setExpression('chibi-planning', 'happy');
 
+    // Readable labels for log output
+    const PLANNING_LABELS = {
+      vibe: {
+        dress_up: 'Royal court attire',
+        smart_casual: "Adventurer's garb",
+        casual: 'Tavern clothes'
+      },
+      food: {
+        light_fresh: 'Nom & nom',
+        comfort: 'yum :p',
+        heavy: 'Chomp',
+        spicy: 'NOM NOM CHOMP CHOMP GRRRRRRRRR'
+      },
+      timing: {
+        early: 'Early dinner (6pm)',
+        classic: 'Perfecto (7-8pm)',
+        late: 'Cozy after-dark (9pm+)'
+      },
+      transport: {
+        drive: 'My horsie',
+        pick_up: 'Your horsie',
+        meet: 'You on your horsie and me on my horsie'
+      }
+    };
+
+    function readableValue(question, value) {
+      return (PLANNING_LABELS[question] && PLANNING_LABELS[question][value]) || value;
+    }
+
     const sections = document.querySelectorAll('.quiz-section[data-question]');
     const allOptions = document.querySelectorAll('.quiz-option');
     const textarea = document.getElementById('special-requests');
@@ -495,7 +524,7 @@
           options.forEach(o => o.classList.remove('selected'));
           opt.classList.add('selected');
           state.planningAnswers[question] = opt.dataset.value;
-          Logger.logSelection('planning_quiz', question, opt.dataset.value);
+          Logger.logSelection('planning_quiz', question, readableValue(question, opt.dataset.value));
         });
       });
     });
@@ -515,8 +544,11 @@
       const typingTime = state.textInputStart ? Math.round((Date.now() - state.textInputStart) / 100) / 10 : 0;
       Logger.logPlanningTextInput(textarea.value, typingTime);
 
-      // Collect all hover data for planning options
-      const answers = { ...state.planningAnswers };
+      // Translate answers to readable labels
+      const answers = {};
+      for (const q in state.planningAnswers) {
+        answers[q] = readableValue(q, state.planningAnswers[q]);
+      }
       if (textarea.value) {
         answers.special_request = textarea.value;
       }
