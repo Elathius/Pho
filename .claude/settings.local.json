@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(open:*)",
-      "Bash(ls:*)",
-      "Bash(curl:*)"
-    ]
-  }
-}
